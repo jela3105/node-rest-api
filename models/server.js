@@ -15,7 +15,21 @@ class Server {
 
   routes() {
     this.app.get("/", (req, res) => {
-      res.send("hello world");
+      res.json({ msg: "get request" });
+    });
+    this.app.put("/", (req, res) => {
+      res.json({ msg: "put request" });
+    });
+    this.app.post("/", (req, res) => {
+      res.json({ msg: "post request" });
+    });
+
+    this.app.delete("/", (req, res) => {
+      res.json({ msg: "delete request" });
+    });
+
+    this.app.patch("/", (req, res) => {
+      res.json({ msg: "patch request" });
     });
   }
 
