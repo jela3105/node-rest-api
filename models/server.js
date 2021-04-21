@@ -14,22 +14,24 @@ class Server {
   }
 
   routes() {
-    this.app.get("/", (req, res) => {
+    this.app.get("/api", (req, res) => {
       res.json({ msg: "get request" });
     });
-    this.app.put("/", (req, res) => {
-      res.json({ msg: "put request" });
-    });
-    this.app.post("/", (req, res) => {
-      res.json({ msg: "post request" });
+
+    this.app.put("/api", (req, res) => {
+      res.status(400).json({ msg: "put request" });
     });
 
-    this.app.delete("/", (req, res) => {
+    this.app.post("/api", (req, res) => {
+      res.status(201).json({ msg: "post request" });
+    });
+
+    this.app.delete("/api", (req, res) => {
       res.json({ msg: "delete request" });
     });
 
-    this.app.patch("/", (req, res) => {
-      res.json({ msg: "patch request" });
+    this.app.patch("/api", (req, res) => {
+      res.status(200).json({ msg: "patch request" });
     });
   }
 
