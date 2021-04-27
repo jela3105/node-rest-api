@@ -7,8 +7,11 @@ const getUsers = (req, res = response) => {
 const putUsers = (req, res) => {
   res.status(400).json({ msg: "put request" });
 };
-const postUsers = (req, res = response) => {
-  res.json({ message: "post API request" });
+const postUsers = async (req, res = response) => {
+  const body = req.body;
+  const user = new User(body);
+  await user.save();
+  res.json({ message: "post API request", user });
 };
 const deleteUsers = (req, res) => {
   res.json({ msg: "delete request" });
