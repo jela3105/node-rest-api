@@ -9,8 +9,8 @@ const putUsers = (req, res) => {
   res.status(400).json({ msg: "put request" });
 };
 const postUsers = async (req, res = response) => {
-  const body = req.body;
-  const user = new User(body);
+  const { name, email, password, role } = req.body;
+  const user = new User({ name, email, password, role });
   await user.save();
   res.json({ message: "post API request", user });
 };
