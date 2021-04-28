@@ -17,7 +17,14 @@ router.put("/", putUsers);
 
 router.post(
   "/",
-  [check("email", "The email is not valid").isEmail()],
+  [
+    check("name", "The name is required").not().isEmpty(),
+    check("password", "The password must have more than 6 characters").isLength(
+      6
+    ),
+    check("email", "The email is not valid").isEmail(),
+    check("role", "The role is not valid").isIn(["ADMIN_ROLE", "USER_ROLE"]),
+  ],
   postUsers
 );
 
