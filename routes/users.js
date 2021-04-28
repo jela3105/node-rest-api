@@ -1,5 +1,6 @@
 const { Router } = require("express");
 const { check } = require("express-validator");
+const { validateFields } = require("../middlewares/validate-fields");
 
 const {
   getUsers,
@@ -24,6 +25,7 @@ router.post(
     ),
     check("email", "The email is not valid").isEmail(),
     check("role", "The role is not valid").isIn(["ADMIN_ROLE", "USER_ROLE"]),
+    validateFields,
   ],
   postUsers
 );
