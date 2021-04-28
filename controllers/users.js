@@ -1,8 +1,9 @@
-const { response } = require("express");
+const { response, request } = require("express");
 const User = require("../models/user");
 
-const getUsers = (req, res = response) => {
-  res.json({ msg: "get API - cotroller" });
+const getUsers = (req = request, res = response) => {
+  const { q, page = 1, apikey } = req.query;
+  res.json({ msg: "get API - cotroller", q, page, apikey });
 };
 const putUsers = (req, res) => {
   res.status(400).json({ msg: "put request" });
