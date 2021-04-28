@@ -1,7 +1,7 @@
 const { Router } = require("express");
 const { check } = require("express-validator");
 const { validateFields } = require("../middlewares/validate-fields");
-const Role = require("../models/role");
+const { isValidRole } = require("../helpers/db-validators");
 
 const {
   getUsers,
@@ -25,12 +25,7 @@ router.post(
       6
     ),
     check("email", "The email is not valid").isEmail(),
-    check("role").custom(async (role = "") => {
-      const roleExists = await Role.findOne({ role });
-      if (!roleExists) {
-        throw new Error(`The ${role} role not exists`);
-      }
-    }),
+    check("role").custom(isValidRole),
     validateFields,
   ],
   postUsers
