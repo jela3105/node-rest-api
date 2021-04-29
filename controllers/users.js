@@ -8,8 +8,19 @@ const getUsers = (req = request, res = response) => {
   res.json({ msg: "get API - cotroller", q, page, apikey });
 };
 
-const putUsers = (req, res) => {
-  res.status(400).json({ msg: "put request" });
+const putUsers = async (req, res) => {
+  const { id } = req.params;
+  const { email, password, google, ...rest } = req.body;
+
+  //TODO: validate in data base if user exists
+  if (password) {
+    const salt = bcryptjs.genSaltSync();
+    rest.password = bcryptjs.hashSync(password, salt);
+  }
+
+  const user = await User.findByIdAndUpdate(id, rest);
+
+  res.status(400).json({ msg: "put request", user });
 };
 
 const postUsers = async (req, res = response) => {
