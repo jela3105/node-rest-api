@@ -10,7 +10,7 @@ const getUsers = (req = request, res = response) => {
 
 const putUsers = async (req, res) => {
   const { id } = req.params;
-  const { email, password, google, ...rest } = req.body;
+  const { _id, email, password, google, ...rest } = req.body;
 
   //TODO: validate in data base if user exists
   if (password) {
