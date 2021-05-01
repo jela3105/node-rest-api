@@ -5,15 +5,19 @@ const User = require("../models/user");
 
 const getUsers = async (req = request, res = response) => {
   const { limit = 5, from = 0 } = req.query;
-  const users = await User.find().skip(Number(from)).limit(Number(limit));
-  res.json({ users });
+  const query = { isActive: true };
+
+  const [total, users] = await Promise.all([
+    User.countDocuments(query),
+    await User.find(query).skip(Number(from)).limit(Number(limit)),
+  ]);
+  res.json({ total, users });
 };
 
 const putUsers = async (req, res) => {
   const { id } = req.params;
   const { _id, email, password, google, ...rest } = req.body;
 
-  //TODO: validate in data base if user exists
   if (password) {
     const salt = bcryptjs.genSaltSync();
     rest.password = bcryptjs.hashSync(password, salt);
