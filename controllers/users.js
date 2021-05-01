@@ -40,8 +40,10 @@ const postUsers = async (req, res = response) => {
   res.json({ user });
 };
 
-const deleteUsers = (req, res) => {
-  res.json({ msg: "delete request" });
+const deleteUsers = async (req, res) => {
+  const { id } = req.params;
+  const user = await User.findByIdAndUpdate(id, { isActive: false });
+  res.json(user);
 };
 
 const patchUsers = (req, res) => {
