@@ -3,9 +3,9 @@ const bcryptjs = require("bcryptjs");
 
 const User = require("../models/user");
 
-const getUsers = (req = request, res = response) => {
-  const { q, page = 1, apikey } = req.query;
-  res.json({ msg: "get API - cotroller", q, page, apikey });
+const getUsers = async (req = request, res = response) => {
+  const users = await User.find();
+  res.json({ users });
 };
 
 const putUsers = async (req, res) => {
@@ -20,7 +20,7 @@ const putUsers = async (req, res) => {
 
   const user = await User.findByIdAndUpdate(id, rest);
 
-  res.status(400).json({ msg: "put request", user });
+  res.status(400).json({ user });
 };
 
 const postUsers = async (req, res = response) => {
