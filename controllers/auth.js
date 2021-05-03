@@ -2,6 +2,8 @@ const { response } = require("express");
 const bcryptjs = require("bcryptjs");
 const User = require("../models/user");
 
+const { generateJWT } = require("../helpers/generate-jwt");
+
 const login = async (req, res) => {
   const { email, password } = req.body;
 
@@ -10,6 +12,7 @@ const login = async (req, res) => {
     if (!user) {
       return res.status(400).json({ msg: "User / Password incorrect - email" });
     }
+
     if (!user.isActive) {
       return res
         .status(400)
@@ -23,8 +26,10 @@ const login = async (req, res) => {
         .json({ msg: "User / Password incorrect - incorrect" });
     }
 
+    const token = await generateJWT(user.id);
     res.json({
       msg: "Login ok",
+      token,
     });
   } catch (e) {
     res
