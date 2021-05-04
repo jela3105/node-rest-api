@@ -43,8 +43,7 @@ const postUsers = async (req, res = response) => {
 const deleteUsers = async (req, res) => {
   const { id } = req.params;
   const user = await User.findByIdAndUpdate(id, { isActive: false });
-  const authUser = req.user;
-  res.status(200).json({ user, authUser });
+  res.status(200).json({ user });
 };
 
 const patchUsers = (req, res) => {
