@@ -7,9 +7,9 @@ const googleVerify = async (idToken) => {
     idToken,
     audience: process.env.GOOGLE_CLIENT_ID,
   });
-  const { name, picture, email } = ticket.getPayload();
+  const { name, picture: image, email } = ticket.getPayload();
 
-  return { name, picture, email };
+  return { name, image, email };
 };
 
 module.exports = { googleVerify };

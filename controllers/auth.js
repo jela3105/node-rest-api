@@ -42,9 +42,27 @@ const login = async (req, res) => {
 const googleSignIn = async (req, res = response) => {
   const { id_token } = req.body;
   try {
-    const googleUser = await googleVerify(id_token);
-    console.log(googleUser);
-    res.json({ msg: "Everything is ok" });
+    const { email, name, image } = await googleVerify(id_token);
+    let user = await User.findOne({ email });
+
+    if (!user) {
+      user = new User({
+        name,
+        email,
+        password: "",
+        image,
+        createdByGoogle: true,
+      });
+      //await user.save();
+    }
+
+    if (!user.isActive) {
+      return res.status(401).json({ msg: "The user is deleted" });
+    }
+
+    const token = await generateJWT(user.id);
+
+    res.json({ user, token });
   } catch (error) {
     res.status(400).json({ msg: "Google token is not valid" });
   }
