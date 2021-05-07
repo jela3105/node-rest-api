@@ -38,6 +38,12 @@ const login = async (req, res) => {
   }
 };
 
+const googleSignIn = (req, res = response) => {
+  const { id_token } = req.body;
+  res.json({ msg: "Everything is ok" });
+};
+
 module.exports = {
   login,
+  googleSignIn,
 };
