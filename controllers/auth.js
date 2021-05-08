@@ -49,15 +49,15 @@ const googleSignIn = async (req, res = response) => {
       user = new User({
         name,
         email,
-        password: "",
+        password: " ",
         image,
         createdByGoogle: true,
       });
-      //await user.save();
+      await user.save();
     }
 
     if (!user.isActive) {
-      return res.status(401).json({ msg: "The user is deleted" });
+      return res.status(401).json({ msg: "The user is unavaible" });
     }
 
     const token = await generateJWT(user.id);
