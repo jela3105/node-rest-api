@@ -2,9 +2,11 @@ const { response, request } = require("express");
 
 const { Category } = require("../models/");
 
+//TODO: paged - total - populate moongose
 const getCategories = async (req = request, res = response) => {
   res.json("get all categories");
 };
+//TODO: populate category moongose
 const getCategoryById = async (req = request, res = response) => {
   res.json("get category by id");
 };
@@ -24,10 +26,12 @@ const createCategory = async (req = request, res = response) => {
   res.status(201).json(category);
 };
 
+//TODO: rename category
 const updateCategory = async (req = request, res = response) => {
   res.json("update category");
 };
 
+//TODO: change is visible to false
 const deleteCategory = async (req = request, res = response) => {
   res.json("delete a category");
 };
