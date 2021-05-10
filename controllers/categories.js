@@ -37,7 +37,6 @@ const createCategory = async (req = request, res = response) => {
   res.status(201).json(category);
 };
 
-//TODO: rename category
 const updateCategory = async (req = request, res = response) => {
   const { id } = req.params;
   const { isVisible, user, ...data } = req.body;
@@ -47,9 +46,14 @@ const updateCategory = async (req = request, res = response) => {
   res.json(category);
 };
 
-//TODO: change is visible to false
 const deleteCategory = async (req = request, res = response) => {
-  res.json("delete a category");
+  const { id } = req.params;
+  const category = await Category.findByIdAndUpdate(
+    id,
+    { isVisible: false },
+    { new: true }
+  );
+  res.json(category);
 };
 module.exports = {
   getCategories,
