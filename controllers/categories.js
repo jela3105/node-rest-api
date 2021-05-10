@@ -2,7 +2,6 @@ const { response, request } = require("express");
 
 const { Category } = require("../models/");
 
-//TODO: paged - total - populate moongose
 const getCategories = async (req = request, res = response) => {
   const { limit = 5, from = 0 } = req.query;
   const query = { isVisible: true };
@@ -16,9 +15,11 @@ const getCategories = async (req = request, res = response) => {
   ]);
   res.json({ total, categories });
 };
-//TODO: populate category moongose
+
 const getCategoryById = async (req = request, res = response) => {
-  res.json("get category by id");
+  const { id } = req.params;
+  const category = await Category.findById(id).populate("user", "name");
+  res.json(category);
 };
 
 const createCategory = async (req = request, res = response) => {
