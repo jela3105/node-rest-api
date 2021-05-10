@@ -4,6 +4,7 @@ const CategorySchema = Schema({
   name: {
     type: String,
     required: [true, "The name is required"],
+    unique: true,
   },
 
   isVisible: {
