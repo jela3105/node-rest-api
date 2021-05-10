@@ -39,6 +39,7 @@ router.put(
     validateJWT,
     check("id", "Is not a valid ID").isMongoId(),
     check("id").custom(categoryExists),
+    check("name", "The name is required").not().isEmpty(),
     validateFields,
   ],
   updateCategory

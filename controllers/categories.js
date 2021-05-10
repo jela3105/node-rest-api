@@ -39,7 +39,12 @@ const createCategory = async (req = request, res = response) => {
 
 //TODO: rename category
 const updateCategory = async (req = request, res = response) => {
-  res.json("update category");
+  const { id } = req.params;
+  const { isVisible, user, ...data } = req.body;
+  data.name = data.name.toUpperCase();
+  data.user = req.user._id;
+  const category = await Category.findByIdAndUpdate(id, data, { new: true });
+  res.json(category);
 };
 
 //TODO: change is visible to false
