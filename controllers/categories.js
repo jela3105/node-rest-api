@@ -4,7 +4,17 @@ const { Category } = require("../models/");
 
 //TODO: paged - total - populate moongose
 const getCategories = async (req = request, res = response) => {
-  res.json("get all categories");
+  const { limit = 5, from = 0 } = req.query;
+  const query = { isVisible: true };
+
+  const [total, categories] = await Promise.all([
+    Category.countDocuments(query),
+    await Category.find(query)
+      .populate("user", "name")
+      .skip(Number(from))
+      .limit(Number(limit)),
+  ]);
+  res.json({ total, categories });
 };
 //TODO: populate category moongose
 const getCategoryById = async (req = request, res = response) => {
