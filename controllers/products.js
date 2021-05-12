@@ -3,7 +3,18 @@ const { response, request } = require("express");
 const { Product } = require("../models/");
 
 const getProducts = async (req = request, res = response) => {
-  res.json("Get products");
+  const { limit = 5, from = 0 } = req.query;
+  const query = { isVisible: true };
+
+  const [total, categories] = await Promise.all([
+    Product.countDocuments(query),
+    await Product.find(query)
+      .populate("category", "name")
+      .populate("user", "name")
+      .skip(Number(from))
+      .limit(Number(limit)),
+  ]);
+  res.json({ total, categories });
 };
 
 const getProductById = async (req = request, res = response) => {
