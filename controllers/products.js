@@ -1,6 +1,6 @@
 const { response, request } = require("express");
 
-const { Product } = require("../models/");
+const { Product, Category } = require("../models/");
 
 const getProducts = async (req = request, res = response) => {
   const { limit = 5, from = 0 } = req.query;
@@ -18,11 +18,31 @@ const getProducts = async (req = request, res = response) => {
 };
 
 const getProductById = async (req = request, res = response) => {
-  res.json("Get product by id");
+  res.json({ msg: "get product by id" });
 };
 
 const createProduct = async (req = request, res = response) => {
-  res.status(201).json("Create product");
+  let { name, category, description, avaible, price } = req.body;
+  categoryName = category.toUpperCase();
+  const productExists = await Product.findOne({ name });
+  category = await Category.findOne({ categoryName });
+
+  if (productExists) {
+    return res.status(400).json({
+      msg: `The prodcut ${name} is already used`,
+    });
+  }
+  const data = {
+    name,
+    price,
+    category,
+    user: req.user._id,
+    description,
+    avaible,
+  };
+  const product = new Product(data);
+  //await product.save();
+  res.status(201).json(product);
 };
 
 const updateProduct = async (req = request, res = response) => {

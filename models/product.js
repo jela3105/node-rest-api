@@ -23,6 +23,7 @@ const ProductSchema = Schema({
     type: Number,
     default: 0,
   },
+
   category: {
     type: Schema.Types.ObjectId,
     ref: "Category",
