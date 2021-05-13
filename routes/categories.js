@@ -28,6 +28,7 @@ router.post(
   "/",
   [
     validateJWT,
+    hasRole("ADMIN_ROLE", "SALES_ROLE"),
     check("name", "The name is required").not().isEmpty(),
     validateFields,
   ],
@@ -37,6 +38,7 @@ router.put(
   "/:id",
   [
     validateJWT,
+    hasRole("ADMIN_ROLE", "SALES_ROLE"),
     check("id", "Is not a valid ID").isMongoId(),
     check("id").custom(categoryExists),
     check("name", "The name is required").not().isEmpty(),
@@ -48,9 +50,9 @@ router.delete(
   "/:id",
   [
     validateJWT,
+    hasRole("ADMIN_ROLE"),
     check("id", "Is not a valid ID").isMongoId(),
     check("id").custom(categoryExists),
-    hasRole("ADMIN_ROLE"),
     validateFields,
   ],
   deleteCategory
