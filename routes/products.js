@@ -40,10 +40,7 @@ router.put(
   "/:id",
   [
     validateJWT,
-    check("name", "The name is required").not().isEmpty(),
-    check("category", "The category is required").not().isEmpty(),
     check("id", "Is not a valid ID").isMongoId(),
-    check("category").custom(isValidCategory),
     check("id").custom(productExists),
     validateFields,
   ],

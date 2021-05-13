@@ -44,7 +44,11 @@ const createProduct = async (req = request, res = response) => {
 };
 
 const updateProduct = async (req = request, res = response) => {
-  res.json("Update product");
+  const { id } = req.params;
+  const { user, ...data } = req.body;
+  data.user = req.user._id;
+  const product = await Product.findByIdAndUpdate(id, data, { new: true });
+  res.json(product);
 };
 
 const deleteProduct = async (req = request, res = response) => {
