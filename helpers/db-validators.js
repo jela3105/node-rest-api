@@ -33,9 +33,7 @@ const productExists = async (id = "") => {
   }
 };
 const isValidCategory = async (category = "") => {
-  const categoryExists = await Category.findById({
-    category,
-  });
+  const categoryExists = await Category.findById(category);
   if (!categoryExists) {
     throw new Error(`The category ${category} does not exists`);
   }

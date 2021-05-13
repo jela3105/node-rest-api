@@ -31,6 +31,7 @@ router.post(
     check("name", "The name is required").not().isEmpty(),
     check("category", "The category is required").not().isEmpty(),
     check("category", "Is not a valid ID").isMongoId(),
+    check("category").custom(isValidCategory),
     validateFields,
   ],
   createProduct
