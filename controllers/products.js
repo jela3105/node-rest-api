@@ -4,7 +4,7 @@ const { Product, Category } = require("../models/");
 
 const getProducts = async (req = request, res = response) => {
   const { limit = 5, from = 0 } = req.query;
-  const query = { isVisible: true };
+  const query = { avaible: true };
 
   const [total, categories] = await Promise.all([
     Product.countDocuments(query),
@@ -18,7 +18,11 @@ const getProducts = async (req = request, res = response) => {
 };
 
 const getProductById = async (req = request, res = response) => {
-  res.json({ msg: "get product by id" });
+  const { id } = req.params;
+  const product = await Product.findById(id)
+    .populate("category", "name")
+    .populate("user", "name");
+  res.json(product);
 };
 
 const createProduct = async (req = request, res = response) => {
