@@ -30,7 +30,7 @@ router.post(
     validateJWT,
     check("name", "The name is required").not().isEmpty(),
     check("category", "The category is required").not().isEmpty(),
-    check("category").custom(isValidCategory),
+    check("category", "Is not a valid ID").isMongoId(),
     validateFields,
   ],
   createProduct

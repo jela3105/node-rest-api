@@ -23,9 +23,7 @@ const getProductById = async (req = request, res = response) => {
 
 const createProduct = async (req = request, res = response) => {
   let { name, category, description, avaible, price } = req.body;
-  categoryName = category.toUpperCase();
   const productExists = await Product.findOne({ name });
-  category = await Category.findOne({ categoryName });
 
   if (productExists) {
     return res.status(400).json({
@@ -41,7 +39,7 @@ const createProduct = async (req = request, res = response) => {
     avaible,
   };
   const product = new Product(data);
-  //await product.save();
+  await product.save();
   res.status(201).json(product);
 };
 

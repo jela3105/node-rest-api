@@ -26,7 +26,6 @@ const validateJWT = async (req = request, res = response, next) => {
     console.log(error);
     res.status(401).json({ msg: "Not a valid token" });
   }
-  console.log(token);
 };
 
 module.exports = {
