@@ -2,7 +2,12 @@ const { Router } = require("express");
 const { check } = require("express-validator");
 
 const { productExists, isValidCategory } = require("../helpers/db-validators");
-const { validateJWT, validateFields, isAdmin } = require("../middlewares");
+const {
+  validateJWT,
+  validateFields,
+  isAdmin,
+  hasRole,
+} = require("../middlewares");
 
 const {
   getProducts,
@@ -28,6 +33,7 @@ router.post(
   "/",
   [
     validateJWT,
+    hasRole("ADMIN_ROLE", "SALES_ROLE"),
     check("name", "The name is required").not().isEmpty(),
     check("category", "The category is required").not().isEmpty(),
     check("category", "Is not a valid ID").isMongoId(),
@@ -40,6 +46,7 @@ router.put(
   "/:id",
   [
     validateJWT,
+    hasRole("ADMIN_ROLE", "SALES_ROLE"),
     check("id", "Is not a valid ID").isMongoId(),
     check("id").custom(productExists),
     validateFields,

@@ -58,5 +58,4 @@ router.delete(
   deleteUsers
 );
 
-router.patch("/", patchUsers);
 module.exports = router;
