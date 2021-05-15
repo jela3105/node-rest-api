@@ -9,8 +9,16 @@ const searchUsers = async (term = "", res = response) => {
   const isMongoId = ObjectId.isValid(term);
   if (isMongoId) {
     const user = await User.findById(term);
-    res.json({ results: user ? [user] : [] });
+    return res.json({
+      results: user ? [user] : [],
+    });
   }
+  const regex = new RegExp(term, "i");
+  const users = await User.find({
+    $or: [{ name: regex }, { email: regex }],
+    $and: [{ isActive: true }],
+  });
+  res.json({ results: users });
 };
 
 const search = (req, res = response) => {
@@ -20,11 +28,11 @@ const search = (req, res = response) => {
       .status(400)
       .json({ msg: `The collections allowed are: ${collectionsAllowed}` });
   }
+
   switch (collection) {
     case "users":
       searchUsers(term, res);
       break;
-
     case "users":
       break;
     case "category":
@@ -38,6 +46,5 @@ const search = (req, res = response) => {
     default:
       res.status(500).json({ msg: "The search for the item is not implement" });
   }
-  res.json({ collection, term });
 };
 module.exports = { search };
