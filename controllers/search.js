@@ -24,26 +24,37 @@ const searchUsers = async (term = "", res = response) => {
 const searchCategory = async (term = "", res = response) => {
   const isMongoId = ObjectId.isValid(term);
   if (isMongoId) {
-    const category = await Category.findById(term);
+    const category = await Category.findById(term)
+      .populate("category", "name")
+      .populate("user", "name");
     return res.json({
       results: category ? [category] : [],
     });
   }
   const regex = new RegExp(term, "i");
-  const category = await Category.find({ name: regex, isVisible: true });
+  const category = await Category.find({
+    name: regex,
+    isVisible: true,
+  })
+    .populate("category", "name")
+    .populate("user", "name");
   res.json({ results: category });
 };
 
 const searchProduct = async (term = "", res = response) => {
   const isMongoId = ObjectId.isValid(term);
   if (isMongoId) {
-    const product = await Product.findById(term);
+    const product = await Product.findById(term)
+      .populate("user", "name")
+      .populate("category", "name");
     return res.json({
       results: product ? [product] : [],
     });
   }
   const regex = new RegExp(term, "i");
-  const product = await Product.find({ name: regex, avaible: true });
+  const product = await Product.find({ name: regex, avaible: true })
+    .populate("category", "name")
+    .populate("user", "name");
   res.json({ results: product });
 };
 
