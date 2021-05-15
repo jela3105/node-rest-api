@@ -24,14 +24,27 @@ const searchUsers = async (term = "", res = response) => {
 const searchCategory = async (term = "", res = response) => {
   const isMongoId = ObjectId.isValid(term);
   if (isMongoId) {
-    const category = await Category.findById(category);
+    const category = await Category.findById(term);
     return res.json({
       results: category ? [category] : [],
     });
   }
   const regex = new RegExp(term, "i");
-  const category = await Category.find({ name: regex });
+  const category = await Category.find({ name: regex, isVisible: true });
   res.json({ results: category });
+};
+
+const searchProduct = async (term = "", res = response) => {
+  const isMongoId = ObjectId.isValid(term);
+  if (isMongoId) {
+    const product = await Product.findById(term);
+    return res.json({
+      results: product ? [product] : [],
+    });
+  }
+  const regex = new RegExp(term, "i");
+  const product = await Product.find({ name: regex, avaible: true });
+  res.json({ results: product });
 };
 
 const search = (req, res = response) => {
@@ -50,8 +63,7 @@ const search = (req, res = response) => {
       searchCategory(term, res);
       break;
     case "products":
-      break;
-    case "products":
+      searchProduct(term, res);
       break;
     case "roles":
       break;
