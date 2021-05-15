@@ -21,6 +21,19 @@ const searchUsers = async (term = "", res = response) => {
   res.json({ results: users });
 };
 
+const searchCategory = async (term = "", res = response) => {
+  const isMongoId = ObjectId.isValid(term);
+  if (isMongoId) {
+    const category = await Category.findById(category);
+    return res.json({
+      results: category ? [category] : [],
+    });
+  }
+  const regex = new RegExp(term, "i");
+  const category = await Category.find({ name: regex });
+  res.json({ results: category });
+};
+
 const search = (req, res = response) => {
   const { collection, term } = req.params;
   if (!collectionsAllowed.includes(collection)) {
@@ -33,9 +46,8 @@ const search = (req, res = response) => {
     case "users":
       searchUsers(term, res);
       break;
-    case "users":
-      break;
     case "category":
+      searchCategory(term, res);
       break;
     case "products":
       break;
