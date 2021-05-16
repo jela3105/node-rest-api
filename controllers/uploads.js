@@ -7,7 +7,17 @@ const uploadFile = (req, res = response) => {
     return;
   }
   const { file } = req.files;
+  const shortName = file.name.split(".");
+  const extension = shortName[shortName.length - 1];
 
+  const validExtensions = ["png", "jpg", "jpeg", "gif"];
+  if (!validExtensions.includes(extension)) {
+    return res.status(400).json({
+      msg: `The extension ${extension} is not valid, ${validExtensions}`,
+    });
+  }
+  res.json({ extension });
+  /*
   uploadPath = path.join(__dirname, "../uploads/" + file.name);
 
   file.mv(uploadPath, (err) => {
@@ -16,7 +26,7 @@ const uploadFile = (req, res = response) => {
     }
 
     res.json({ msg: "File uploaded to " + uploadPath });
-  });
+  });*/
 };
 
 module.exports = { uploadFile };
