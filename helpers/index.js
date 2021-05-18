@@ -1,9 +1,9 @@
 const dbValidators = require("./db-validators");
-const generateJWT = require("./generateJWT");
-const googleVerify = require("./google-vefify");
+const generateJWT = require("./generate-jwt");
+const googleVerify = require("./google-verify");
 const uploadFile = require("./upload-file");
 
-modole.exports = {
+module.exports = {
   ...dbValidators,
   ...generateJWT,
   ...googleVerify,

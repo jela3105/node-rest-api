@@ -38,6 +38,16 @@ const isValidCategory = async (category = "") => {
     throw new Error(`The category ${category} does not exists`);
   }
 };
+
+const allowedCollectios = (collection = "", collections = []) => {
+  const collectionIncluded = collections.includes(collection);
+  if (!collectionIncluded) {
+    throw new Error(
+      `The collection ${collection} is not allowed, ${collections}`
+    );
+  }
+  return true;
+};
 module.exports = {
   categoryExists,
   emailExists,
@@ -45,4 +55,5 @@ module.exports = {
   isValidCategory,
   isValidRole,
   productExists,
+  allowedCollectios,
 };

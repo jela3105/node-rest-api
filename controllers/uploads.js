@@ -10,4 +10,9 @@ const postImage = async (req, res = response) => {
   res.json({ name });
 };
 
-module.exports = { postImage };
+const updateImage = async (req, res = response) => {
+  const { id, collection } = req.params;
+  res.json({ id, collection });
+};
+
+module.exports = { postImage, updateImage };
