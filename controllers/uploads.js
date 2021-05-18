@@ -36,7 +36,7 @@ const updateImage = async (req, res = response) => {
     default:
       return res.status(500).json({ msg: `collection not found` });
   }
-  model.img = await uploadFile(req.files, undefined, collection);
+  model.image = await uploadFile(req.files, undefined, collection);
   await model.save();
   res.json(model);
 };
