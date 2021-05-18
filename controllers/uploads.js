@@ -6,9 +6,8 @@ const postImage = async (req, res = response) => {
     res.status(400).json({ msg: "No files were uploaded." });
     return;
   }
-  console.log(req.files);
-  const filePath = await uploadFile(req.files);
-  res.json({ path: filePath });
+  const name = await uploadFile(req.files);
+  res.json({ name });
 };
 
-module.exports = { uploadFile };
+module.exports = { postImage };
