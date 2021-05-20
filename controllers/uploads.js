@@ -1,4 +1,6 @@
 const { response } = require("express");
+const path = require("path");
+const fs = require("fs");
 const { uploadFile } = require("../helpers/upload-file");
 const { User, Product } = require("../models");
 
@@ -32,6 +34,19 @@ const updateImage = async (req, res = response) => {
     default:
       return res.status(500).json({ msg: `collection not found` });
   }
+
+  if (model.image) {
+    const imagePath = path.join(
+      __dirname,
+      "../uploads/",
+      collection,
+      model.image
+    );
+    if (fs.existsSync(imagePath)) {
+      fs.unlinkSync(imagePath);
+    }
+  }
+
   model.image = await uploadFile(req.files, undefined, collection);
   await model.save();
   res.json(model);
