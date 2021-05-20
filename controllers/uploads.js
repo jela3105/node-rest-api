@@ -90,7 +90,7 @@ const getImage = async (req, res = response) => {
     }
   }
 
-  res.json({ msg: "There is not placeholder yet" });
+  res.sendFile(path.join(__dirname, "../assets/no-image.jpg"));
 };
 
 module.exports = { postImage, updateImage, getImage };
