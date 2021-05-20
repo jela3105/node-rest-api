@@ -52,4 +52,8 @@ const updateImage = async (req, res = response) => {
   res.json(model);
 };
 
-module.exports = { postImage, updateImage };
+const getImage = (req, res = response) => {
+  res.json(req.params);
+};
+
+module.exports = { postImage, updateImage, getImage };
