@@ -1,6 +1,8 @@
-const { response } = require("express");
 const path = require("path");
 const fs = require("fs");
+const cloudinary = require("cloudinary").v2;
+cloudinary.config(process.env.CLOUDINARY_URL);
+const { response } = require("express");
 const { uploadFile } = require("../helpers/upload-file");
 const { User, Product } = require("../models");
 
@@ -9,7 +11,7 @@ const postImage = async (req, res = response) => {
   res.json({ name });
 };
 
-const updateImage = async (req, res = response) => {
+const updateImageCloudinary = async (req, res = response) => {
   const { id, collection } = req.params;
   let model;
 
@@ -36,18 +38,11 @@ const updateImage = async (req, res = response) => {
   }
 
   if (model.image) {
-    const imagePath = path.join(
-      __dirname,
-      "../uploads/",
-      collection,
-      model.image
-    );
-    if (fs.existsSync(imagePath)) {
-      fs.unlinkSync(imagePath);
-    }
   }
+  const { tempFilePath } = req.files.file;
+  const { secure_url } = await cloudinary.uploader.upload(tempFilePath);
 
-  model.image = await uploadFile(req.files, undefined, collection);
+  model.image = secure_url;
   await model.save();
   res.json(model);
 };
@@ -93,4 +88,4 @@ const getImage = async (req, res = response) => {
   res.sendFile(path.join(__dirname, "../assets/no-image.jpg"));
 };
 
-module.exports = { postImage, updateImage, getImage };
+module.exports = { postImage, updateImage, getImage, updateImageCloudinary };
