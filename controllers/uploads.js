@@ -27,17 +27,23 @@ const updateImageCloudinary = async (req, res = response) => {
     case "products":
       model = await Product.findById(id);
       if (!model) {
-        console.log("no se encontro");
         return res
           .status(400)
           .json({ msg: `The product with the id ${id} not exists` });
       }
       break;
     default:
-      return res.status(500).json({ msg: `collection not found` });
+      return res
+        .status(500)
+        .json({ msg: `collection ${collection} not found` });
   }
 
   if (model.image) {
+    const nameSplit = model.image.split("/");
+    const name = nameSplit[nameSplit.length - 1];
+
+    const [public_id] = name.split(".");
+    cloudinary.uploader.destroy(public_id);
   }
   const { tempFilePath } = req.files.file;
   const { secure_url } = await cloudinary.uploader.upload(tempFilePath);
@@ -88,4 +94,4 @@ const getImage = async (req, res = response) => {
   res.sendFile(path.join(__dirname, "../assets/no-image.jpg"));
 };
 
-module.exports = { postImage, updateImage, getImage, updateImageCloudinary };
+module.exports = { postImage, getImage, updateImageCloudinary };
