@@ -9,7 +9,6 @@ const {
 const { allowedCollectios } = require("../helpers");
 
 const router = Router();
-router.post("/", validateFile, postImage);
 router.put(
   "/:collection/:id",
   [
