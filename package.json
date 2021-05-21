@@ -20,6 +20,7 @@
   "homepage": "https://github.com/jela3105/node-rest-api#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "cloudinary": "^1.25.1",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
