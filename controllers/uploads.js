@@ -80,15 +80,7 @@ const getImage = async (req, res = response) => {
   }
 
   if (model.image) {
-    const imagePath = path.join(
-      __dirname,
-      "../uploads/",
-      collection,
-      model.image
-    );
-    if (fs.existsSync(imagePath)) {
-      return res.sendFile(imagePath);
-    }
+    return res.json({ image: model.image });
   }
 
   res.sendFile(path.join(__dirname, "../assets/no-image.jpg"));
