@@ -25,7 +25,25 @@
         <br />
         <a href="#" onclick="signOut();">Sign out</a>
       </div>
-      <div class="col-sm-6"></div>
+      <div class="col-sm-6">
+        <h1>Login</h1>
+        <hr />
+        <form class="d-grid">
+          <input
+            type="text"
+            class="form-control mb-2"
+            name="email"
+            placeholder="email"
+          />
+          <input
+            type="text"
+            class="form-control mb-2"
+            name="password"
+            placeholder="password"
+          />
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+      </div>
     </div>
     <script src="https://apis.google.com/js/platform.js" async defer></script>
     <script src="./js/auth.js"></script>
