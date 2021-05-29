@@ -1,13 +1,39 @@
-var url = window.location.hostname.includes("localhost")
-  ? "http://localhost:3000/api/auth/google"
-  : "https://node-rest-api-jela.herokuapp.com/api/auth/google";
+const loginForm = document.querySelector("form");
+
+const url = window.location.hostname.includes("localhost")
+  ? "http://localhost:3000/api/auth/"
+  : "https://node-rest-api-jela.herokuapp.com/api/auth/";
+
+loginForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const formData = {};
+  for (let el of loginForm.elements) {
+    if (el.name.length > 0) {
+      formData[el.name] = el.value;
+    }
+  }
+
+  fetch(url + "login", {
+    method: "POST",
+    body: JSON.stringify(formData),
+    headers: { "Content-Type": "application/json" },
+  })
+    .then((resp) => resp.json())
+    .then(({ msg, token }) => {
+      if (msg) return console.error(msg);
+      localStorage.setItem("token", token);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
 
 function onSignIn(googleUser) {
   var id_token = googleUser.getAuthResponse().id_token;
 
   const token_to_send = { id_token };
 
-  fetch(url, {
+  fetch(url + "google", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(token_to_send),
