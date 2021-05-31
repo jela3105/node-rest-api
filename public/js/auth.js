@@ -26,6 +26,7 @@ loginForm.addEventListener("submit", (e) => {
     .catch((err) => {
       console.log(err);
     });
+  window.location = "chat.html";
 });
 
 function onSignIn(googleUser) {
@@ -43,6 +44,7 @@ function onSignIn(googleUser) {
       localStorage.setItem("token", token);
     })
     .catch(console.log);
+  window.location = "chat.html";
 }
 function signOut() {
   var auth2 = gapi.auth2.getAuthInstance();
