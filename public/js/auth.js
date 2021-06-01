@@ -22,11 +22,11 @@ loginForm.addEventListener("submit", (e) => {
     .then(({ msg, token }) => {
       if (msg) return console.error(msg);
       localStorage.setItem("token", token);
+      window.location = "chat.html";
     })
     .catch((err) => {
       console.log(err);
     });
-  window.location = "chat.html";
 });
 
 function onSignIn(googleUser) {
@@ -42,9 +42,9 @@ function onSignIn(googleUser) {
     .then((resp) => resp.json())
     .then(({ token }) => {
       localStorage.setItem("token", token);
+      window.location = "chat.html";
     })
     .catch(console.log);
-  window.location = "chat.html";
 }
 function signOut() {
   var auth2 = gapi.auth2.getAuthInstance();
