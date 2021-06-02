@@ -37,7 +37,9 @@ const connectSocket = async () => {
     console.log("offline");
   });
   socket.on("receive-messages", () => {});
-  socket.on("active-users", () => {});
+  socket.on("active-users", (payload) => {
+    console.log(payload);
+  });
   socket.on("private-message", () => {});
 };
 const main = async () => {
