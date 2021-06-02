@@ -37,10 +37,22 @@ const connectSocket = async () => {
     console.log("offline");
   });
   socket.on("receive-messages", () => {});
-  socket.on("active-users", (payload) => {
-    console.log(payload);
-  });
+  socket.on("active-users", showUsers);
   socket.on("private-message", () => {});
+};
+
+const showUsers = (users = []) => {
+  let htmlUsers = "";
+  users.forEach(({ name, uid }) => {
+    htmlUsers += ` 
+		<li>
+		  <p>
+		    <h5 class='text-success'>${name}</h5>
+		    <span class="fs-6 text-muted">${uid}</span>
+		  </p>
+		</li>`;
+  });
+  ulMessages.innerHTML = htmlUsers;
 };
 const main = async () => {
   await validateJWT();

@@ -8,6 +8,11 @@ const socketController = async (socket, io) => {
   }
   chatMessages.connectUser(user);
   io.emit("active-users", chatMessages.usersArray);
+
+  socket.on("disconnect", () => {
+    chatMessages.disconnectUser(user.id);
+    io.emit("active-users", chatMessages.usersArray);
+  });
 };
 
 module.exports = {
