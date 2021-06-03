@@ -5,6 +5,7 @@ const url = window.location.hostname.includes("localhost")
 const txtUid = document.querySelector("#txtUid");
 const txtMessage = document.querySelector("#txtMessage");
 const ulMessages = document.querySelector("#ulMessages");
+const ulUsers = document.querySelector("#ulUsers");
 const btnOut = document.querySelector("#btnOut");
 
 let user = null;
@@ -36,7 +37,7 @@ const connectSocket = async () => {
   socket.on("disconnect", () => {
     console.log("offline");
   });
-  socket.on("receive-messages", (payload) => {});
+  socket.on("receive-messages", showMessages);
   socket.on("active-users", showUsers);
   socket.on("private-message", () => {});
 };
@@ -52,8 +53,23 @@ const showUsers = (users = []) => {
 		  </p>
 		</li>`;
   });
-  ulMessages.innerHTML = htmlUsers;
+  ulUsers.innerHTML = htmlUsers;
 };
+const showMessages = (messages = []) => {
+  console.log(messages);
+  let htmlMessages = "";
+  messages.forEach(({ name, message }) => {
+    htmlMessages += ` 
+		<li>
+		  <p>
+		    <span class='text-primary'>${name}</span>
+		    <span >${message}</span>
+		  </p>
+		</li>`;
+  });
+  ulMessages.innerHTML = htmlMessages;
+};
+
 txtMessage.addEventListener("keyup", ({ keyCode }) => {
   const message = txtMessage.value;
   const uid = txtUid.value;

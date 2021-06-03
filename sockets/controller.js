@@ -8,6 +8,7 @@ const socketController = async (socket, io) => {
   }
   chatMessages.connectUser(user);
   io.emit("active-users", chatMessages.usersArray);
+  socket.emit("receive-messages", chatMessages.last10);
 
   socket.on("disconnect", () => {
     chatMessages.disconnectUser(user.id);
@@ -16,7 +17,7 @@ const socketController = async (socket, io) => {
 
   socket.on("send-message", ({ uid, message }) => {
     chatMessages.sendMessage(user.id, user.name, message);
-    io.emit("receive-message", chatMessages.last10);
+    io.emit("receive-messages", chatMessages.last10);
   });
 };
 
